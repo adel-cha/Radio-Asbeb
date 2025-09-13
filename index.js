@@ -60,7 +60,16 @@ async function playNextSong(conn) {
 
   console.log(`🎶 Lecture: ${title} (${url})`);
 
-  const stream = ytdl(url, { filter: "audioonly", quality: "highestaudio" });
+  const stream = ytdl(url, {
+  filter: "audioonly",
+  quality: "highestaudio",
+  highWaterMark: 1 << 25,
+  requestOptions: {
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36"
+    }
+  }});
   const resource = createAudioResource(stream);
 
   player.play(resource);
